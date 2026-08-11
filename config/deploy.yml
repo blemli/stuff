@@ -1,0 +1,46 @@
+service: stuff
+image: blemli/stuff
+servers:
+  web:
+    hosts:
+      - 185.66.109.77
+proxy:
+  ssl: true
+  host: stuff.problem.li
+  app_port: 8080
+registry:
+  server: localhost:5555
+env:
+  clear:
+    SMTP_HOST: server59.hostfactory.ch
+    SMTP_USER: log@problem.li
+    SMTP_TO: info@problem.li
+  secret:
+    - LOGLI_SECRET
+    - SMTP_PASS
+volumes:
+  - "/opt/stuff-data:/data"
+accessories:
+  sftp:
+    image: atmoz/sftp:alpine
+    host: 185.66.109.77
+    port: "22:22"
+    files:
+      - config/users.conf:/etc/sftp/users.conf
+      - config/upload.pub:/home/upload/.ssh/keys/upload.pub
+    volumes:
+      # same files the web app serves; host keys persist so the fingerprint survives redeploys
+      - "/opt/stuff-data/files:/home/upload/upload"
+      - "/opt/stuff-keys/ssh_host_ed25519_key:/etc/ssh/ssh_host_ed25519_key"
+      - "/opt/stuff-keys/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key"
+builder:
+  arch:
+    - amd64
+  remote: ssh://webhost
+ssh:
+  config: true
+  port: 2022
+  user: deploy
+aliases:
+  apps: server exec docker exec kamal-proxy kamal-proxy list
+  ssh: app exec -i sh

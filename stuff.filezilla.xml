@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FileZilla3 version="3.66.0" platform="mac">
+	<Servers>
+		<Server>
+			<Host>stuff.problem.li</Host>
+			<Port>22</Port>
+			<Protocol>1</Protocol>
+			<Type>0</Type>
+			<User>upload</User>
+			<Logontype>2</Logontype>
+			<EncodingType>Auto</EncodingType>
+			<BypassProxy>0</BypassProxy>
+			<Name>stuff</Name>
+			<SyncBrowsing>0</SyncBrowsing>
+			<DirectoryComparison>0</DirectoryComparison>
+			<RemoteDir>1 0 6 upload</RemoteDir>
+		</Server>
+	</Servers>
+</FileZilla3>
