@@ -4,11 +4,11 @@
 
 <img src="stuff.svg" alt="stuff" width="420pt">
 
-For  files that should be public, don't change and are not temporary.
+For  files that should be public, don't change to often and are not temporary.
 
 > [!IMPORTANT]
 >
-> For temporary files use [drop](https://github.com/blemli/drop)
+> For temporary files use [drop](https://github.com/blemli/drop). For files already published in the internet use [blem](https://github.com/blemli/blem) to link to them
 
 
 
@@ -16,6 +16,7 @@ For  files that should be public, don't change and are not temporary.
 
 - upload: `sftp upload@stuff.problem.li`, put into `upload/` — key auth or password (1password item `stuff`). Bookmarks: [stuff.duck](stuff.duck) (Cyberduck), [stuff.filezilla.xml](stuff.filezilla.xml) (FileZilla → File → Import)
 - describe: say what `foo.zip` is in a `foo.zip.txt` sidecar. Undescribed stuff lives a week, described stuff a year — then info@ gets a mail with one-click keep/delete (and a describe form for the undescribed). The sidecar travels with its file everywhere.
+- cli: `python stuff.py foo.zip` — asks what it is, uploads file + sidecar via scp, prints the link
 - download: `https://stuff.problem.li/<filename>` — no listing, you need the exact name
 - expiry: no reaction to the mail → 30 days later the file moves to `deleted/`, a year after that it is gone. Keep, describe and re-upload all reset the clock.
 

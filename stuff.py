@@ -1,5 +1,5 @@
 import flask, flask_caching, flask_limiter, flask_limiter.util as util, logging, logli
-import email.message, markupsafe, os, secrets, shutil, smtplib, sqlite3, threading, time
+import click, email.message, markupsafe, os, secrets, shutil, smtplib, sqlite3, subprocess, tempfile, threading, time
 
 DATA = os.environ.get("DATA", "/data")
 FILES, DELETED = f"{DATA}/files", f"{DATA}/deleted"
@@ -11,7 +11,12 @@ app = flask.Flask(__name__)
 logli.setup("stuff")
 cache = flask_caching.Cache(app, config={"CACHE_TYPE": "SimpleCache"})
 limiter = flask_limiter.Limiter(key_func=util.get_remote_address, app=app, storage_uri="memory://")
-os.makedirs(FILES, exist_ok=True)
+try:
+    os.makedirs(FILES, exist_ok=True)
+except OSError:  # laptop: cli only, no /data
+    DATA = tempfile.mkdtemp()
+    FILES, DELETED = f"{DATA}/files", f"{DATA}/deleted"
+    os.makedirs(FILES, exist_ok=True)
 os.makedirs(DELETED, exist_ok=True)
 db = sqlite3.connect(f"{DATA}/stuff.db", check_same_thread=False)
 db.execute("CREATE TABLE IF NOT EXISTS pending(name TEXT PRIMARY KEY, token TEXT UNIQUE, warned_at REAL)")
@@ -172,5 +177,17 @@ def fetch(name):
     return flask.send_from_directory(FILES, name)  # exact names only, no listing anywhere
 
 
+@click.command(help="no FILE: run the dev server. FILE: ask what it is, upload it + sidecar via scp")
+@click.argument("file", required=False, type=click.Path(exists=True, dir_okay=False))
+def cli(file):
+    if not file:
+        return app.run(port=8080, debug=True)
+    name = os.path.basename(file)
+    side = os.path.join(tempfile.mkdtemp(), name + ".txt")
+    open(side, "w").write(click.prompt("what is it") + "\n")
+    subprocess.run(["scp", file, side, "upload@stuff.problem.li:upload/"], check=True)
+    click.echo(f"https://stuff.problem.li/{name}")
+
+
 if __name__ == "__main__":
-    app.run(port=8080, debug=True)
+    cli()
