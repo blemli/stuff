@@ -19,6 +19,16 @@ For  files that should be public, don't change and are not temporary.
 - download: `https://stuff.problem.li/<filename>` — no listing, you need the exact name
 - expiry: no reaction to the mail → 30 days later the file moves to `deleted/`, a year after that it is gone. Keep, describe and re-upload all reset the clock.
 
+```bash
+# put it somewhere
+scp jetbrains-mono-web.zip upload@stuff.problem.li:upload/
+echo "jetbrains mono webfont (OFL), for our sites" > jetbrains-mono-web.zip.txt
+scp jetbrains-mono-web.zip.txt upload@stuff.problem.li:upload/
+
+# share it
+https://stuff.problem.li/jetbrains-mono-web.zip
+```
+
 ## deploy
 
 ```bash
