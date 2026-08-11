@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import flask, flask_caching, flask_limiter, flask_limiter.util as util, logging, logli
 import click, email.message, markupsafe, os, secrets, shutil, smtplib, sqlite3, subprocess, tempfile, threading, time
 
