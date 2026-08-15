@@ -14,6 +14,10 @@ For  files that should be public, don't change to often and are not temporary.
 
 ## use
 
+```bash
+./stuff.py testfile "just for testing"
+```
+
 - upload: `sftp upload@stuff.problem.li`, put into `upload/` — key auth or password (1password item `stuff`). Bookmarks: [stuff.duck](stuff.duck) (Cyberduck), [stuff.filezilla.xml](stuff.filezilla.xml) (FileZilla → File → Import)
 - describe: say what `foo.zip` is in a `foo.zip.txt` sidecar. Undescribed stuff lives a week, described stuff a year — then info@ gets a mail with one-click keep/delete (and a describe form for the undescribed). The sidecar travels with its file everywhere.
 - cli: `python stuff.py foo.zip` — asks what it is, uploads file + sidecar via scp, prints the link
@@ -29,6 +33,8 @@ scp jetbrains-mono-web.zip.txt upload@stuff.problem.li:upload/
 # share it
 https://stuff.problem.li/jetbrains-mono-web.zip
 ```
+
+
 
 ## deploy
 
